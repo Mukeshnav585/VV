@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #3B4A54;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8696A0;
+}
+
+/* Smooth scroll for chat window */
+.chat-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Message bubble tail */
+.bubble-sent::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  top: 0;
+  border-width: 8px 0 0 8px;
+  border-style: solid;
+  border-color: #005C4B transparent transparent transparent;
+}
+
+.bubble-received::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 0;
+  border-width: 8px 8px 0 0;
+  border-style: solid;
+  border-color: #202C33 transparent transparent transparent;
+}
