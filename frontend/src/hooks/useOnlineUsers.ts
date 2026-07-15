@@ -9,7 +9,7 @@ export const useOnlineUsers = () => {
     if (!socket) return;
 
     const handleUpdate = (userIds: string[]) => {
-      setOnlineUserIds(new Set(userIds));
+      setOnlineUserIds(new Set(Array.from(userIds)));
     };
 
     socket.on('update_online_users', handleUpdate);

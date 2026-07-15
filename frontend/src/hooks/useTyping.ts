@@ -12,14 +12,14 @@ export const useTyping = (chatId: string | null) => {
 
     const handleStart = ({ userId, chatId: cId }: { userId: string; chatId: string }) => {
       if (cId === chatId) {
-        setTypingUsers((prev) => new Set([...prev, userId]));
+        setTypingUsers((prev) => new Set(Array.from(prev).concat(userId)));
       }
     };
 
     const handleStop = ({ userId, chatId: cId }: { userId: string; chatId: string }) => {
       if (cId === chatId) {
         setTypingUsers((prev) => {
-          const next = new Set(prev);
+          const next = new Set(Array.from(prev));
           next.delete(userId);
           return next;
         });
@@ -43,7 +43,6 @@ export const useTyping = (chatId: string | null) => {
       socket.emit('typing_start', { chatId });
     }
 
-    // Reset the stop timer on each keystroke
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     typingTimeoutRef.current = setTimeout(() => {
       isTypingRef.current = false;
