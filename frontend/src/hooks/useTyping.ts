@@ -12,16 +12,19 @@ export const useTyping = (chatId: string | null) => {
 
     const handleStart = ({ userId, chatId: cId }: { userId: string; chatId: string }) => {
       if (cId === chatId) {
-        setTypingUsers((prev) => new Set(Array.from(prev).concat(userId)));
+        setTypingUsers((prev) => {
+          const arr = Array.from(prev);
+          arr.push(userId);
+          return new Set(arr);
+        });
       }
     };
 
     const handleStop = ({ userId, chatId: cId }: { userId: string; chatId: string }) => {
       if (cId === chatId) {
         setTypingUsers((prev) => {
-          const next = new Set(Array.from(prev));
-          next.delete(userId);
-          return next;
+          const arr = Array.from(prev).filter((id) => id !== userId);
+          return new Set(arr);
         });
       }
     };
@@ -37,12 +40,10 @@ export const useTyping = (chatId: string | null) => {
 
   const emitTyping = useCallback(() => {
     if (!socket || !chatId) return;
-
     if (!isTypingRef.current) {
       isTypingRef.current = true;
       socket.emit('typing_start', { chatId });
     }
-
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     typingTimeoutRef.current = setTimeout(() => {
       isTypingRef.current = false;
